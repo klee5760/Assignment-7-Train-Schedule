@@ -8,6 +8,7 @@ var config = {
 };
 
 firebase.initializeApp(config);
+var database = firebase.database();
 
 //2. Adding the train schedule
 
@@ -17,10 +18,10 @@ $("#add-amtrak-btn").on("click",function(event) {
     event.preventDefault();
 
     //Grabs per input
-    var trainName = $("train-name-input").val().trim();
-    var destinationInput = $("destination-input").val().trim();
-    var firstTrainTime = $("first-train-input").val().trim();
-    var frequencyInput = $("frequency-input").val().trim();
+    var trainName = $("#train-name-input").val().trim();
+    var destinationInput = $("#destination-input").val().trim();
+    var firstTrainTime = $("#first-train-input").val().trim();
+    var frequencyInput = $("#frequency-input").val().trim();
 
 
     //Creates local "temporary" object for holding train schedule
@@ -67,11 +68,10 @@ database.ref().on("child_added",function(childsnapshot) {
 
 
 //Input for the Minutes Away
-    var nextArr;
-    var minAway;
-    var firstTrainNew = moment(childsnapshot.val().firsttrain,"hh:mm").subtract(1,"years");
-    var remainder = moment().diff(moment(firstTrainNew),"minutes");
-    var remainder = diffTime % childsnapshot.val().frequency
+
+    var firstTrainNew = moment(childsnapshot.val().firsttrain,"hh:mm")
+    var diffTime = moment().diff(moment(firstTrainNew),"minutes");
+    var remainder = diffTime.childsnapshot.val().frequency;
     var minsAway = childsnapshot.val().frequency - remainder;
 
     
